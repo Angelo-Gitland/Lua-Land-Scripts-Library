@@ -111,7 +111,7 @@ local scripts = {
     {Name="Touch Fling", Code='loadstring(game:HttpGet("https://pastebin.com/raw/LgZwZ7ZB",true))()'},
     {Name="Sus Gui", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/Mainkel/BangV2/main/TrollLol"))()'},
     {Name="Fake Wallhop", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/yijtfjyfjtd/Fake-WallHop/refs/heads/main/Fake%20WallHop"))()'},
-    {Name="Infinite Yield", Code="loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()"}
+    {Name="Infinite Yield", Code="loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()"},
     {Name="Killbrick Destroyer", Code='loadstring(game:HttpGet("https://pastebin.com/raw/bCkmGrD9"))()'},
     {Name="Walk On Walls", Code='loadstring(game:HttpGet("https://pastebin.com/raw/5T7KsEWy", true))()'},
     {Name="Pharaoh", Code='loadstring(game:HttpGet("https://pastebin.com/raw/ZPYtCwR0"))()'},
