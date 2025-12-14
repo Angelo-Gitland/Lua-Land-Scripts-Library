@@ -16,8 +16,10 @@ MainFrame.BorderSizePixel = 0
 MainFrame.Active = false
 MainFrame.Draggable = false
 MainFrame.Parent = ScreenGui
-Instance.new("UICorner", MainFrame)
-Instance.new("UIStroke", MainFrame).Color = Color3.fromRGB(30,30,30)
+
+local corner = Instance.new("UICorner", MainFrame)
+local stroke = Instance.new("UIStroke", MainFrame)
+stroke.Color = Color3.fromRGB(30,30,30)
 
 local Title = Instance.new("TextLabel")
 Title.Text = "Lua Land Scripts & Library"
@@ -50,13 +52,16 @@ DestroyBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
 DestroyBtn.Position = UDim2.new(0,10,0,70)
 DestroyBtn.Size = UDim2.new(0,50,0,25)
 DestroyBtn.Parent = MainFrame
-Instance.new("UICorner", DestroyBtn)
+
+local destroyCorner = Instance.new("UICorner", DestroyBtn)
+
 DestroyBtn.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
 end)
 
 local SearchBox = Instance.new("TextBox")
 SearchBox.PlaceholderText = "Search..."
+SearchBox.Text = ""
 SearchBox.Font = Enum.Font.SourceSans
 SearchBox.TextSize = 16
 SearchBox.TextColor3 = Color3.fromRGB(255,255,255)
@@ -65,10 +70,11 @@ SearchBox.Position = UDim2.new(0,70,0,70)
 SearchBox.Size = UDim2.new(0,400,0,25)
 SearchBox.ClearTextOnFocus = false
 SearchBox.Parent = MainFrame
-Instance.new("UICorner", SearchBox)
+
+local searchCorner = Instance.new("UICorner", SearchBox)
 
 local DragBtn = Instance.new("TextButton")
-DragBtn.Text = "Drag"
+DragBtn.Text = "True"
 DragBtn.Font = Enum.Font.SourceSansBold
 DragBtn.TextSize = 16
 DragBtn.TextColor3 = Color3.fromRGB(255,255,255)
@@ -76,14 +82,15 @@ DragBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
 DragBtn.Position = UDim2.new(0,480,0,70)
 DragBtn.Size = UDim2.new(0,100,0,25)
 DragBtn.Parent = MainFrame
-Instance.new("UICorner", DragBtn)
+
+local dragCorner = Instance.new("UICorner", DragBtn)
 
 local draggable = false
 DragBtn.MouseButton1Click:Connect(function()
     draggable = not draggable
     MainFrame.Active = draggable
     MainFrame.Draggable = draggable
-    DragBtn.Text = draggable and "Fixed" or "Drag"
+    DragBtn.Text = draggable and "False" or "True"
 end)
 
 local ScrollingFrame = Instance.new("ScrollingFrame")
@@ -97,9 +104,13 @@ ScrollingFrame.Parent = MainFrame
 local UIListLayout = Instance.new("UIListLayout")
 UIListLayout.Padding = UDim.new(0,6)
 UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Parent = ScrollingFrame
 
--- Scripts list with loadstring
+UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    ScrollingFrame.CanvasSize = UDim2.new(0,0,0,UIListLayout.AbsoluteContentSize.Y + 20)
+end)
+
 local scripts = {
     {Name="Fly Gui V3", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()'},
     {Name="Noclip Gui", Code='loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-noclip-universal-gui-15665"))()'},
@@ -119,7 +130,7 @@ local scripts = {
     {Name="Mr Byebye", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/My-Converts/refs/heads/main/Mr.Bye%20Bye.lua"))()'},
     {Name="The Survey (By Lua Land)", Code='loadstring(game:HttpGet("https://gist.githubusercontent.com/Angelo-Gitland/625ff8a6db74fae4025c03069357c374/raw/551bc07d32f98b6be840e1b2569c86c17a6032c0/The%2520Survey%2520Script%2520Horror%2520By%2520Lua%2520Land"))()'},
     {Name="John doe", Code='loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-John-doe-57956"))()'},
-    {Name="Telekinesis", Code='loadstring(game:HttpGet("https://pastebin.com/raw/qtZcirVq"))()'}
+    {Name="Telekinesis", Code='loadstring(game:HttpGet("https://pastebin.com/raw/qtZcirVq"))()'},
     {Name="c00lkidd Gui V3", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/MiRw3b/c00lgui-v3rx/main/c00lguiv3rx.lua"))()'},
     {Name="Death Note", Code='loadstring(game:HttpGet(("https://pastefy.app/GoKxYBkU/raw"), true))()'},
     {Name="Nameless Admin", Code="loadstring(game:HttpGet('https://raw.githubusercontent.com/FilteringEnabled/NamelessAdmin/main/Source'))()"},
@@ -190,35 +201,42 @@ local scripts = {
 }
 
 local function createButtons(filter)
-    for _,child in pairs(ScrollingFrame:GetChildren()) do
-        if child:IsA("TextButton") then child:Destroy() end
+    for _, child in pairs(ScrollingFrame:GetChildren()) do
+        if child:IsA("TextButton") then
+            child:Destroy()
+        end
     end
-    for _,script in ipairs(scripts) do
+    local count = 0
+    for _, script in ipairs(scripts) do
         if filter == "" or string.find(string.lower(script.Name), string.lower(filter)) then
+            count = count + 1
             local btn = Instance.new("TextButton")
+            btn.Name = script.Name
             btn.Text = script.Name
             btn.Font = Enum.Font.SourceSansBold
             btn.TextSize = 16
             btn.TextColor3 = Color3.fromRGB(255,255,255)
             btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
-            btn.Size = UDim2.new(0.94,0,0,34)
+            btn.Size = UDim2.new(0.94, 0, 0, 34)
+            btn.LayoutOrder = count
             btn.Parent = ScrollingFrame
-            Instance.new("UICorner", btn)
-
+            
+            local btnCorner = Instance.new("UICorner", btn)
+            
             btn.MouseButton1Click:Connect(function()
-                local ok, err = pcall(function()
+                local success, err = pcall(function()
                     loadstring(script.Code)()
                 end)
-                if not ok then
-                    warn("Error executing "..script.Name..": "..tostring(err))
+                if not success then
+                    warn("Error loading " .. script.Name .. ": " .. tostring(err))
                 end
             end)
         end
     end
-    ScrollingFrame.CanvasSize = UDim2.new(0,0,0,UIListLayout.AbsoluteContentSize.Y + 10)
 end
 
 createButtons("")
+
 SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
     createButtons(SearchBox.Text)
 end)
