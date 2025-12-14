@@ -187,7 +187,7 @@ local scripts = {
     {Name="Lua Hammer", Code='loadstring(game:HttpGet("https://rawscripts.net/raw/Prison-Life-Lua-Hammer-18934"))()'},
     {Name="Steve", Code='loadstring(game:HttpGet("https://pastebin.com/raw/9vxQ22F1"))()'},
     {Name="Robot Machine", Code='loadstring(game:HttpGet("https://pastefy.app/ur8n4dc6/raw",true))()'}
-
+}
 
 local function createButtons(filter)
     for _,child in pairs(ScrollingFrame:GetChildren()) do
