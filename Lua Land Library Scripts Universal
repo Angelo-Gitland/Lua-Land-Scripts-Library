@@ -1,0 +1,158 @@
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "LuaLandLibrary"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.IgnoreGuiInset = true
+ScreenGui.Parent = playerGui
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 600, 0, 350)
+MainFrame.Position = UDim2.new(0.5, -300, 0.5, -175)
+MainFrame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+MainFrame.BackgroundTransparency = 0.3
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = false
+MainFrame.Draggable = false
+MainFrame.Parent = ScreenGui
+Instance.new("UICorner", MainFrame)
+Instance.new("UIStroke", MainFrame).Color = Color3.fromRGB(30,30,30)
+
+local Title = Instance.new("TextLabel")
+Title.Text = "Lua Land Scripts & Library"
+Title.Font = Enum.Font.SourceSansBold
+Title.TextSize = 20
+Title.TextColor3 = Color3.fromRGB(255,255,255)
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0,10,0,10)
+Title.Size = UDim2.new(1,-20,0,30)
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = MainFrame
+
+local Subtitle = Instance.new("TextLabel")
+Subtitle.Text = "Developed By Lua Land Team"
+Subtitle.Font = Enum.Font.SourceSans
+Subtitle.TextSize = 14
+Subtitle.TextColor3 = Color3.fromRGB(255,255,255)
+Subtitle.BackgroundTransparency = 1
+Subtitle.Position = UDim2.new(0,10,0,40)
+Subtitle.Size = UDim2.new(1,-20,0,20)
+Subtitle.TextXAlignment = Enum.TextXAlignment.Left
+Subtitle.Parent = MainFrame
+
+local DestroyBtn = Instance.new("TextButton")
+DestroyBtn.Text = "</>"
+DestroyBtn.Font = Enum.Font.Code
+DestroyBtn.TextSize = 18
+DestroyBtn.TextColor3 = Color3.fromRGB(255,255,255)
+DestroyBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
+DestroyBtn.Position = UDim2.new(0,10,0,70)
+DestroyBtn.Size = UDim2.new(0,50,0,25)
+DestroyBtn.Parent = MainFrame
+Instance.new("UICorner", DestroyBtn)
+DestroyBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
+
+local SearchBox = Instance.new("TextBox")
+SearchBox.PlaceholderText = "Search..."
+SearchBox.Font = Enum.Font.SourceSans
+SearchBox.TextSize = 16
+SearchBox.TextColor3 = Color3.fromRGB(255,255,255)
+SearchBox.BackgroundColor3 = Color3.fromRGB(30,30,30)
+SearchBox.Position = UDim2.new(0,70,0,70)
+SearchBox.Size = UDim2.new(0,400,0,25)
+SearchBox.ClearTextOnFocus = false
+SearchBox.Parent = MainFrame
+Instance.new("UICorner", SearchBox)
+
+local DragBtn = Instance.new("TextButton")
+DragBtn.Text = "Drag"
+DragBtn.Font = Enum.Font.SourceSansBold
+DragBtn.TextSize = 16
+DragBtn.TextColor3 = Color3.fromRGB(255,255,255)
+DragBtn.BackgroundColor3 = Color3.fromRGB(40,40,40)
+DragBtn.Position = UDim2.new(0,480,0,70)
+DragBtn.Size = UDim2.new(0,100,0,25)
+DragBtn.Parent = MainFrame
+Instance.new("UICorner", DragBtn)
+
+local draggable = false
+DragBtn.MouseButton1Click:Connect(function()
+    draggable = not draggable
+    MainFrame.Active = draggable
+    MainFrame.Draggable = draggable
+    DragBtn.Text = draggable and "Fixed" or "Drag"
+end)
+
+local ScrollingFrame = Instance.new("ScrollingFrame")
+ScrollingFrame.Size = UDim2.new(1,-20,1,-110)
+ScrollingFrame.Position = UDim2.new(0,10,0,110)
+ScrollingFrame.CanvasSize = UDim2.new(0,0,0,0)
+ScrollingFrame.ScrollBarThickness = 6
+ScrollingFrame.BackgroundTransparency = 1
+ScrollingFrame.Parent = MainFrame
+
+local UIListLayout = Instance.new("UIListLayout")
+UIListLayout.Padding = UDim.new(0,6)
+UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout.Parent = ScrollingFrame
+
+-- Scripts list with loadstring
+local scripts = {
+    {Name="Fly Gui V3", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()'},
+    {Name="Noclip Gui", Code='loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-noclip-universal-gui-15665"))()'},
+    {Name="Anti-Ban", Code='loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Antiban-ROBLOX-5892"))()'},
+    {Name="Anti-Kick", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/raavenkkj/anti-kick/main/anti-kick.lua"))()'},
+    {Name="Remote spy", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/SimpleSpy/refs/heads/main/Mobile.lua"))()'},
+    {Name="Teleport Tool", Code='loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Teleport-tool-7095"))()'},
+    {Name="Yeet Gui", Code='loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Yeet-Script-4394"))()'},
+    {Name="Touch Fling", Code='loadstring(game:HttpGet("https://pastebin.com/raw/LgZwZ7ZB",true))()'},
+    {Name="Sus Gui", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/Mainkel/BangV2/main/TrollLol"))()'},
+    {Name="Fake Wallhop", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/yijtfjyfjtd/Fake-WallHop/refs/heads/main/Fake%20WallHop"))()'},
+    {Name="Infinite Yield", Code="loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()"}
+}
+    {Name="Killbrick Destroyer", Code='loadstring(game:HttpGet("https://pastebin.com/raw/bCkmGrD9"))()'},
+{Name="Walk On Walls", Code='loadstring(game:HttpGet("https://pastebin.com/raw/5T7KsEWy", true))()'},
+{Name="Pharaoh", Code='loadstring(game:HttpGet("https://pastebin.com/raw/ZPYtCwR0"))()'},
+{Name="All Seeing Hand", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/ian49972/SCRIPTS/refs/heads/main/hand",true))()'},
+{Name="Mr Byebye", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/gObl00x/My-Converts/refs/heads/main/Mr.Bye%20Bye.lua"))()'},
+{Name="The Survey (By Lua Land)", Code='loadstring(game:HttpGet("https://gist.githubusercontent.com/Angelo-Gitland/625ff8a6db74fae4025c03069357c374/raw/551bc07d32f98b6be840e1b2569c86c17a6032c0/The%2520Survey%2520Script%2520Horror%2520By%2520Lua%2520Land"))()'},
+{Name="John doe", Code='loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-John-doe-57956"))()'},
+{Name="Telekinesis", Code='loadstring(game:HttpGet("https://pastebin.com/raw/qtZcirVq"))()'}
+
+
+local function createButtons(filter)
+    for _,child in pairs(ScrollingFrame:GetChildren()) do
+        if child:IsA("TextButton") then child:Destroy() end
+    end
+    for _,script in ipairs(scripts) do
+        if filter == "" or string.find(string.lower(script.Name), string.lower(filter)) then
+            local btn = Instance.new("TextButton")
+            btn.Text = script.Name
+            btn.Font = Enum.Font.SourceSansBold
+            btn.TextSize = 16
+            btn.TextColor3 = Color3.fromRGB(255,255,255)
+            btn.BackgroundColor3 = Color3.fromRGB(40,40,40)
+            btn.Size = UDim2.new(0.94,0,0,34)
+            btn.Parent = ScrollingFrame
+            Instance.new("UICorner", btn)
+
+            btn.MouseButton1Click:Connect(function()
+                local ok, err = pcall(function()
+                    loadstring(script.Code)()
+                end)
+                if not ok then
+                    warn("Error executing "..script.Name..": "..tostring(err))
+                end
+            end)
+        end
+    end
+    ScrollingFrame.CanvasSize = UDim2.new(0,0,0,UIListLayout.AbsoluteContentSize.Y + 10)
+end
+
+createButtons("")
+SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+    createButtons(SearchBox.Text)
+end)
